@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Pomodoro Timer</h1>
+            <div class="stats">
+                <div class="stat-item">
+                    <i class="fas fa-clock"></i>
+                    <span id="totalPomodoros">0</span> Pomodoros
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-hourglass-half"></i>
+                    <span id="totalFocusTime">0</span> min
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-trophy"></i>
+                    <span id="streak">0</span> day streak
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="timer-container">
+                <div class="timer-mode">
+                    <button class="mode-btn active" data-mode="pomodoro">Pomodoro</button>
+                    <button class="mode-btn" data-mode="short-break">Short Break</button>
+                    <button class="mode-btn" data-mode="long-break">Long Break</button>
+                </div>
+                <div class="timer-display">
+                    <span id="minutes">25</span>:<span id="seconds">00</span>
+                </div>
+                <div class="timer-controls">
+                    <button id="startBtn"><i class="fas fa-play"></i> Start</button>
+                    <button id="pauseBtn"><i class="fas fa-pause"></i> Pause</button>
+                    <button id="resetBtn"><i class="fas fa-redo"></i> Reset</button>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+
+            <div class="task-section">
+                <h2>Tasks</h2>
+                <div class="task-input">
+                    <input type="text" id="taskInput" placeholder="Add a new task...">
+                    <button id="addTaskBtn"><i class="fas fa-plus"></i> Add</button>
+                </div>
+                <div class="task-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="active">Active</button>
+                    <button class="filter-btn" data-filter="completed">Completed</button>
+                </div>
+                <ul id="taskList"></ul>
+            </div>
+
+            <div class="settings-section">
+                <h2>Settings</h2>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label for="workTime">Work Time (min):</label>
+                        <input type="number" id="workTime" value="25" min="1" max="60">
+                    </div>
+                    <div class="setting-item">
+                        <label for="breakTime">Break Time (min):</label>
+                        <input type="number" id="breakTime" value="5" min="1" max="30">
+                    </div>
+                    <div class="setting-item">
+                        <label for="longBreakTime">Long Break (min):</label>
+                        <input type="number" id="longBreakTime" value="15" min="1" max="60">
+                    </div>
+                    <div class="setting-item">
+                        <label for="soundEnabled">Sound Alerts:</label>
+                        <input type="checkbox" id="soundEnabled" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="notificationsEnabled">Desktop Notifications:</label>
+                        <input type="checkbox" id="notificationsEnabled" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="autoStartBreaks">Auto-start Breaks:</label>
+                        <input type="checkbox" id="autoStartBreaks" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="darkMode">Dark Mode:</label>
+                        <input type="checkbox" id="darkMode">
+                    </div>
+                </div>
+            </div>
+
+            <div class="music-section">
+                <h2>Background Music</h2>
+                <div class="music-player">
+                    <div class="music-controls">
+                        <button id="prevTrackBtn"><i class="fas fa-backward"></i></button>
+                        <button id="playMusicBtn"><i class="fas fa-play"></i></button>
+                        <button id="nextTrackBtn"><i class="fas fa-forward"></i></button>
+                        <div class="volume-control">
+                            <i class="fas fa-volume-up"></i>
+                            <input type="range" id="volumeSlider" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                    <div class="music-info">
+                        <p id="currentTrack">No track playing</p>
+                        <div class="music-progress">
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="music-playlist">
+                        <h3>Playlists</h3>
+                        <div class="playlist-buttons">
+                            <button class="playlist-btn active" data-playlist="focus">Focus</button>
+                            <button class="playlist-btn" data-playlist="relax">Relax</button>
+                            <button class="playlist-btn" data-playlist="nature">Nature</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analytics-section">
+                <h2>Analytics</h2>
+                <div class="analytics-grid">
+                    <div class="analytics-item">
+                        <h3>Today's Focus</h3>
+                        <div class="chart-container">
+                            <div class="chart" id="todayChart"></div>
+                            <div class="chart-stats">
+                                <p>Focus Time: <span id="todayFocus">0</span> min</p>
+                                <p>Pomodoros: <span id="todayPomodoros">0</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="analytics-item">
+                        <h3>Weekly Progress</h3>
+                        <div class="chart-container">
+                            <div class="chart" id="weeklyChart"></div>
+                            <div class="chart-stats">
+                                <p>Total Focus: <span id="weeklyFocus">0</span> min</p>
+                                <p>Daily Average: <span id="weeklyAverage">0</span> min</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="analytics-item">
+                        <h3>Productivity Stats</h3>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <i class="fas fa-fire"></i>
+                                <p>Current Streak</p>
+                                <span id="streak">0</span> days
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-clock"></i>
+                                <p>Total Focus Time</p>
+                                <span id="totalFocusTime">0</span> min
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-check-circle"></i>
+                                <p>Completed Pomodoros</p>
+                                <span id="totalPomodoros">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
