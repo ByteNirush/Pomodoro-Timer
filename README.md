@@ -15,22 +15,6 @@ A modern, feature-rich Pomodoro Timer application built with HTML, CSS, and Java
 - 📈 Progress Tracking
 - 🎯 Streak Counter
 
-
-## Setup Instructions
-
-1. Clone the repository
-2. Add sound files to the `sounds` directory
-3. Add PWA icons (192x192 and 512x512)
-4. Open `index.html` in a web browser
-
-
-
-## PWA Installation
-
-1. Open the app in Chrome
-2. Click the install icon in the address bar
-3. Follow the installation prompts
-
 ## Offline Usage
 
 The app works offline thanks to Service Worker caching. All essential resources are cached for offline use.
